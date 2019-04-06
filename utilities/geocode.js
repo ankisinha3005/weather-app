@@ -10,12 +10,13 @@ const getGeoCode =(address,callback) => {
         callback('No such location found',undefined)
      }else{
         callback(undefined,{
-           latitude: response.body.features[0].center[0],
-           longitude: response.body.features[0].center[1],
+           latitude: response.body.features[0].center[1],
+           longitude: response.body.features[0].center[0],
            location: response.body.features[0].place_name
        })
      }
    
     })
 }
-    module.exports=getGeoCode
+
+module.exports=getGeoCode
