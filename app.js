@@ -1,27 +1,30 @@
-const request=require('request')
 const geocode=require('./utilities/geocode.js')
+const forecast=require('./utilities/forecast.js')
 
-const url='https://api.darksky.net/forecast/132f42797fa2810a1722a584ec6fe6f4/37.8267,-122.4233'
+const address=process.argv[2]
+if(!address){
+    console.log('Please Enter an address')
+}   
+else{
+    geocode(address, (error, data) => {
+        if(error){
+            return console.log(error)
+        }
+    
+        forecast(data.longitude, data.latitude, (error, forecastData) => {
+            if(error){
+               return  console.log(error)
+            }
+            console.log(data.location)
+            console.log('Data', forecastData)
+          })
+    
+    })
+    
+}    
 
-request({url:url,json:true},(error,response) => {
-   if(error){
- console.log('Unable to Connect to the server')
- }
-   else if(response.body.error) {
-     console.log('No response received')
- } else{
-  console.log(response.body.daily.data[0].summary + ' It is currently ' + response.body.currently.temperature + ' degress out. There is a ' + response.body.currently.precipProbability + '% chance of rain.')
- }
-
- })
- // request to get the co-ordinate of the place using geocoding mapbox api
  
- 
-// default 
- geocode('Guwahati', (error, data) => {
-    console.log('Error', error)
-    console.log('Data', data)
-})
+
 
 
 
